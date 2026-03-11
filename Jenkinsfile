@@ -4,21 +4,21 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/kaaz01/demo-jsp.git'
+                git branch: 'main', url: 'https://github.com/YOUR_USERNAME/demo-jsp.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'pkill -f "demo.*war" || true'
-                sh 'sleep 2'
-                sh 'nohup java -jar target/demo-0.0.1-SNAPSHOT.war > app.log 2>&1 &'
+                bat 'taskkill /F /IM java.exe || exit /b 0'
+                bat 'ping -n 3 127.0.0.1 > nul'
+                bat 'start /B java -jar target\\demo-0.0.1-SNAPSHOT.war'
             }
         }
     }
